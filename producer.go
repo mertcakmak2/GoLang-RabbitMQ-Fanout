@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/streadway/amqp"
 )
@@ -17,14 +18,14 @@ func main() {
 	logError(err)
 	defer ch.Close()
 
-	produceAndConsume(ch)
+	// produceAndConsume(ch)
 	// or
-	// go func() {
-	// 	for range time.Tick(time.Second * 3) {
-	// 		produce(ch)
-	// 	}
-	// }()
-	// consume(ch)
+	go func() {
+		for range time.Tick(time.Second * 3) {
+			produce(ch)
+		}
+	}()
+	consume(ch)
 }
 
 func produceAndConsume(ch *amqp.Channel) {
